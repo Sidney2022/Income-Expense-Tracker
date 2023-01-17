@@ -1,0 +1,176 @@
+
+{% extends 'base.html' %}
+{% block title %}  Expenses {% endblock %}
+
+{% load static %}
+{% block content %}
+<div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl" style="position: relative;">
+        {% include 'messages.html' %}
+        
+        <div class="row g-3 mb-4 align-items-center justify-content-between">
+            <div class="col-auto">
+                <h1 class="app-page-title mb-0 text-primary">Expenses</h1>
+            </div>
+            <div class="col-auto">
+                 <div class="page-utilities">
+                    <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+
+                        <div class="col-auto">
+                            <a href="{% url 'add-expense' %}" class="btn btn-success text-white">Add Expense</a>
+                        </div>
+
+                        <div class="col-auto">
+                            <form class="table-search-form row gx-1 align-items-center">
+                                <div class="col-auto">
+                                    <input type="text" id="search-orders" name="searchorders" class="form-control search-orders" placeholder="Search">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn app-btn-secondary">Search</button>
+                                </div>
+                            </form>
+                            
+                        </div><!--//col-->
+                        <!-- <div class="col-auto">
+                            
+                            <select class="form-select w-auto">
+                                  <option selected="" value="option-1">All</option>
+                                  <option value="option-2">This week</option>
+                                  <option value="option-3">This month</option>
+                                  <option value="option-4">Last 3 months</option>
+                                  
+                            </select>
+                        </div> -->
+                        <div class="col-auto">						    
+                            <a class="btn app-btn-secondary" href="#">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path>
+  <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path>
+</svg>
+                                Download CSV
+                            </a>
+                        </div>
+                        
+                    </div><!--//row-->
+                </div><!--//table-utilities-->
+            </div><!--//col-auto-->
+        </div><!--//row-->
+    
+        <div class="tab-content" id="orders-table-tab-content">
+
+            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive p-1">
+                            <table class="table table-striped table-sm-sm ">
+                              <thead>
+                                <tr>
+                                  <!-- <th scope="col">#</th> -->
+                                  <th scope="col" class="cell">Amount ($)</th>
+                                  <th scope="col" class="cell">Description</th>
+                                  <th scope="col" class="cell">Category</th>
+                                  <th scope="col" class="cell">Date</th>
+                                </tr>
+                              </thead>
+                              <tbody >
+                                {% for expense in page %}
+                                <tr class="cap ">
+                                  <td class="cell">{{expense.amount}}</td>
+                                  <td class="cell">{{expense.description|truncatewords:4}}</td>
+                                  <td class="cell">{{expense.category}}</td>
+                                  <td class="cell">{{expense.date}}</td>
+                                  <td class="cell"><a href="{% url 'expense-detail' pk=expense.id %}" class="btn btn-sm app-btn-secondary">View</a></td>
+                                  <td class="cell"><a href="{% url 'edit-expense' pk=expense.id %}" class="btn btn-sm text-white btn-warning">Edit</a></td>
+                                  <td class="cell" >
+                                    <button  id="delete-btn"  class="btn btn-sm text-white btn-danger">Delete<span id="details" style="display:none;">-{{expense.id}}-{{expense.description}}</span> </button>
+                                </td>
+                                </tr>
+                                {% empty %}
+                                <td class="cell text-center" colspan="4">No Expense Created</td>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                       
+                    </div><!--//app-card-body-->		
+                </div><!--//app-card-->
+               
+                <div class="row justify-content-between">
+                    <div class="col-md-6">
+                    </div>
+                        <!-- <div class="col-md-6"> -->
+                            <div class="pagination col-auto text-end">
+                                {% if page.has_previous %}
+                                  <a href="?page={{ page.previous_page_number }}">Previous</a>
+                                {% endif %}
+                              
+                                {% for page_num in page.paginator.page_range %}
+                                  {% if page_num == page.number %}
+                                    <span class="current-page">{{ page_num }}</span>
+                                  {% else %}
+                                    <a href="?page={{ page_num }}">{{ page_num }}</a>
+                                  {% endif %}
+                                {% endfor %}
+                              
+                                {% if page.has_next %}
+
+                                  <a href="?page={{ page.next_page_number }}">Next</a>
+                                {% endif %}
+                              </div>
+                        <!-- </div> -->
+                </div>
+                  
+                  
+                
+            </div><!--//tab-pane-->
+
+            
+            
+        </div><!--//tab-content-->
+        
+        
+        <div id="confirm-del-card" class="card p-4 " style="position: absolute; top:100px; left:100px; width:400px;">
+           <p> Are you sure you want to delete "<span class="text-primary" id="delete-msg"></span> "?</p>
+           
+           <div class="row">
+            <div class="col-auto">
+                <button id = cancel-btn class="btn btn-success text-white">Cancel</button>
+            </div>
+            <div class="col-auto">
+                <a id="ok-btn" href="" class="btn btn btn-danger text-white">Delete</a>
+
+            </div>
+           </div>
+        </div>
+        
+    </div><!--//container-fluid-->
+</div>
+
+
+<script>
+    const cancelBtn = document.querySelector('#cancel-btn')
+    const confirmDelCard = document.querySelector('#confirm-del-card')
+    const DelBtn = document.querySelectorAll('#delete-btn')
+    const okBtn = document.querySelector('#ok-btn')
+    const Details = document.querySelectorAll('#details')
+    const DelMsg = document.querySelector('#delete-msg')
+
+    
+    confirmDelCard.style.display = 'none'
+    cancelBtn.addEventListener('click', () => {
+        confirmDelCard.style.display = 'none'
+    })
+    DelBtn.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            confirmDelCard.style.display = 'block'
+            text_content = btn.textContent.split('-')
+            DelMsg.innerHTML = text_content[2]
+            okBtn.setAttribute('href', `delete?id=${text_content[1]}`)
+
+            
+        })
+    })
+</script>
+
+
+{% endblock %}

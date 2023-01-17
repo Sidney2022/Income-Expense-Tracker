@@ -1,0 +1,83 @@
+
+{% extends 'base.html' %}
+{% block title %}  Income {% endblock %}
+
+{% load static %}
+{% block content %}
+<div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+        <div class="row bdc">
+            <div class="col-md-9">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"> <a href="{% url 'all-income' %}">My Income</a></li>
+                        <li class="breadcrumb-item"> <a aria-disabled="true" >{{income.id}}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"> <a>Detail</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+			    
+        <div class="row gy-4 cap" >
+            <div class="col-12 col-lg-12">
+                <div class="app-card app-card-account shadow-sm d-flex flex-column align-items-start">
+                  
+                    <div class="app-card-body px-4 w-100">
+                       
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Source</strong></div>
+                                    <div class="item-data">{{income.source}}</div>
+                                </div><!--//col-->
+                               
+                            </div><!--//row-->
+                        </div><!--//item-->
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Amount</strong></div>
+                                    <div class="item-data">{{income.amount}}</div>
+                                </div><!--//col-->
+                             
+                            </div><!--//row-->
+                        </div><!--//item-->
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Description</strong></div>
+                                    <div class="item-data">
+                                        {{income.description}}
+                                    </div>
+                                </div><!--//col-->
+                             
+                            </div><!--//row-->
+                        </div><!--//item-->
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Date</strong></div>
+                                    <div class="item-data">
+                                        {{income.date}}
+                                    </div>
+                                </div><!--//col-->
+                             
+                            </div><!--//row-->
+                        </div><!--//item-->
+                    </div><!--//app-card-body-->
+                    <div class="app-card-footer p-4 mt-auto">
+                       <a class="btn btn-warning text-white" href="{% url   'edit-income' income.id %}">Edit</a>
+                       <a class="btn btn-danger text-white" href="#">Delete</a>
+                    </div><!--//app-card-footer-->
+                    <div class="app-card-footer p-4 mt-auto">
+                    </div><!--//app-card-footer-->
+                   
+                </div><!--//app-card-->
+            </div><!--//col-->
+            
+        </div><!--//row-->
+        
+    </div>
+</div>
+
+{% endblock %}

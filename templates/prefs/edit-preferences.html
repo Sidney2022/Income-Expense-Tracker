@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %} Settings {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+        <div class="row bdc">
+            <div class="col-md-9">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"> <a href="{% url 'account-info' %}">My Account</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"> <a>Edit Preferences</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+
+        {% include 'messages.html' %}
+
+        <div class="app-card app-card-settings shadow-sm p-4">
+
+            <div class="app-card-body">
+                <form class="form-group" action="edit"  method="post">
+                    {% csrf_token %}
+                  
+                    
+                    <div class="mb-3">
+                        <label for="currency" class="form-label">Preferred Currency</label>
+                        <select class="form-control upper"  name="currency">
+                            {% if user_pref.currency %}
+                          <option value="{{user_pref.currency}}" selected>{{user_pref.currency}}</option>
+                          {% endif %}
+                          {% for currency in currencies %}
+                          <option value="{{currency.name}}" >  {{currency.name}} - {{currency.value}} - ({{currency.symbol}})</option>
+                          {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3 form-check ">
+                        
+                        <input type="checkbox" name="email-subscription" class="form-check-input" id="">
+                        <label for="email-subscription" class="form-check-label">Email Subscriptions</label>
+                    </div>
+                    <div class="mb-3 form-check ">
+
+                        <input type="checkbox" name="sms-notification" class="form-check-input" id="">
+                        <label for="sms-notification" class="form-check-label">Sms Notifications</label>
+                    </div>
+                  
+                    
+                    <button type="submit" class="btn form-control btn-primary text-white">Edit Expense</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

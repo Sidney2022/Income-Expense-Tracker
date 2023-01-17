@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+        <div class="row bdc">
+            <div class="col-md-9">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"> <a href="{% url 'all-expenses' %}">My Expenses</a></li>
+                        <li class="breadcrumb-item"> <a href="{% url 'all-expenses' %}">My Expenses</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"> <a>Add Category</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+
+        {% include 'messages.html' %}
+
+        <div class="app-card app-card-settings shadow-sm p-4">
+
+            <div class="app-card-body">
+                <form class="form-group" action="{% url 'add-expense' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" class="form-control" value="{{fieldValues.category}}" required="" name="amount"
+                            placeholder=" Category">
+                    </div>
+
+                    <div class="mb-3">
+                        <select name="category" id="">
+                            <option value="">Cat</option>
+                        </select>
+                    </div>
+                   
+                    <button type="submit" class="btn form-control btn-primary">Add Category</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

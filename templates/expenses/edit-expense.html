@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}  Expenses {% endblock %}
+{% block content %}
+
+<div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+        <div class="row bdc">
+            <div class="col-md-9">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"> <a href="{% url 'all-expenses' %}">My Expenses</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"> <a>Edit Expense</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+
+        {% include 'messages.html' %}
+
+        <div class="app-card app-card-settings shadow-sm p-4">
+
+            <div class="app-card-body">
+                <form class="form-group" action="edit"  method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="number" class="form-control" value="{{expense.amount}}" required="" name="amount"
+                            placeholder=" Amount">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <select  required name="category" id="" class="form-control upper" >
+                            <option selected value="{{expense.category}}">{{expense.category}}</option>
+                            {% for category in categories %}
+                            <option value="{{category.name}}">{{category.name}}</option>
+                            {% empty %}
+                            <option value="">No Category Created. Use the create category button to add a few categories</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="description" placeholder="Description" value="{{expense.description}}">
+                    </div>
+                    <div class="mb-3">
+                        <input type="date" class="form-control" name="date"  value="{{expense.date |date:'Y-m-d' }}">
+                        
+                    </div>
+                    
+                    <button type="submit" class="btn form-control btn-primary text-white">Edit Expense</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

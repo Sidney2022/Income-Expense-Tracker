@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}  Income {% endblock %}
+{% block content %}
+
+<div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+        <div class="row bdc">
+            <div class="col-md-9">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"> <a href="{% url 'all-income' %}">My income</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"> <a>Edit Income</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+
+        {% include 'messages.html' %}
+
+        <div class="app-card app-card-settings shadow-sm p-4">
+
+            <div class="app-card-body">
+                <form class="form-group" action="edit"  method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="number" class="form-control" value="{{income.amount}}" required="" name="amount"
+                            placeholder=" Amount">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <select  required name="source" id="" class="form-control upper" >
+                            <option selected value="{{income.source}}">{{income.source}}</option>
+                            {% for source in sources %}
+                            <option value="{{source.name}}">{{source.name}}</option>
+                            {% empty %}
+                            <option value="">No source Created. Use the create source button to add a few sources</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="description" placeholder="Description" value="{{income.description}}">
+                    </div>
+                    <div class="mb-3">
+                        <input type="date" class="form-control" name="date"  value="{{income.date |date:'Y-m-d' }}">
+                        
+                    </div>
+                    
+                    <button type="submit" class="btn form-control btn-primary text-white">Edit income</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
