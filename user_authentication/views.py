@@ -75,7 +75,7 @@ class RegisterView(View):
             return render(request, 'auth/signup.html', context)
         new_user = User.objects.create_user(username=username, email=email, password=password)
         # new_user.save()
-        new_user.is_active = False
+#         new_user.is_active = False
         new_user.save()
         new_user_pref_object = UserPreferences.objects.create(user=new_user)
         new_user_pref_object.save()
