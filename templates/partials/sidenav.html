@@ -1,18 +1,20 @@
 {% load static %}
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@1,800&display=swap" rel="stylesheet">
 <div id="app-sidepanel" class="app-sidepanel"> 
     <div id="sidepanel-drop" class="sidepanel-drop"></div>
     <div class="sidepanel-inner d-flex flex-column">
         <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
         <div class="app-branding">
-            <a class="app-logo" href="/"><img class="logo-icon me-2"  alt="logo"><span class="logo-text">IET</span></a>
+            <a class="app-logo logo" href="/"><img class="logo-icon me-2"  src="{% static 'logo.png' %}" alt="logo"><span class="logo-text" style="color: #5cb377;"><span style="color:orange;">InEx</span>Tracker</span></a>
 
         </div><!--//app-branding-->  
         
         <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
             <ul class="app-menu list-unstyled accordion" id="menu-accordion">
                 <li class="nav-item">
-                    <a class="nav-link active" href="index.html">
+                    <a class="nav-link {% if current_path == '/dashboard' %} active {% endif %}" href="{% url 'dashboard' %}">
                         <span class="nav-icon">
                        <!-- icon goes here -->
                          </span>
@@ -20,36 +22,32 @@
                     </a><!--//nav-link-->
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'all-expenses' %}">
+                    <a class="nav-link {% if 'dashboard/expense' in current_path %} active {% endif %}" href="{% url 'all-expenses' %}">
                         <span class="nav-icon">
                        
                          </span>
-                         <span class="nav-link-text">Expenses</span>
+                         <span  class="nav-link-text ">Expenses </span>
                     </a><!--//nav-link-->
                 </li><!--//nav-item-->
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'all-income' %}">
+                    <a class="nav-link {% if 'dashboard/income' in current_path %} active {% endif %}" href="{% url 'all-income' %}">
                         <span class="nav-icon">
                        <!-- icon goes here -->
                          </span>
-                         <span class="nav-link-text">Income</span>
+                         <span class="nav-link-text">Income </span>
                     </a><!--//nav-link-->
                 </li><!--//nav-item-->
+                <!-- summary -->
+               
           
           
 
-               
-           
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="help.html">
-                        <span class="nav-icon">
-                       
-                         </span>
-                         <span class="nav-link-text">Help</span>
-                    </a><!--//nav-link-->
-                </li><!--//nav-item-->					    
-            </ul><!--//app-menu-->
+              
+          
+               				    
+          </ul>
+      
+      
         </nav>
         <div class="app-sidepanel-footer">
             <nav class="app-nav app-nav-footer">

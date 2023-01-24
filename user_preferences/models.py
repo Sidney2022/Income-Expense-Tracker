@@ -4,7 +4,10 @@ from django.contrib.auth.models import User
 class UserPreferences(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE)
     currency = models.CharField(max_length=255, blank=True, null=True)
-    # image=models.ImageField(upload_to='profile-imgs', default='profile.jpg')
+    image=models.ImageField(upload_to='profile-imgs', default='profile.jpg')
+    email_subscription = models.BooleanField(default=True)
+    sms_notification = models.BooleanField(default=True)
+    
 
     def __str__(self) :
         return f'{self.user} '

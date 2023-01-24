@@ -5,18 +5,23 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.conf import settings
-
+from user_preferences.models import UserPreferences
+from django.http import HttpResponse
+import csv
+import datetime
 
 
 @login_required(login_url='/auth/login', redirect_field_name='next')
 def all_income(request):
     income = UserIncome.objects.filter(owner=request.user)
+    user_prefs = UserPreferences.objects.get(user=request.user)
     page_number = request.GET.get('page')
     paginator = Paginator(income, 2)
     page = paginator.get_page( page_number)
     context = {
         'all-income':income,
-        'page':page
+        'page':page,
+        'user_prefs':user_prefs
     }
     return render(request, 'income/index-income.html', context)
 
@@ -118,3 +123,16 @@ def delete_income(request):
     income.delete()
     messages.success(request, f'You have successfully deleted "{msg}" ')
     return redirect('all-income')
+
+
+
+def export_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition']=f'attachment;filename=Income{datetime.datetime.now()}.csv'
+    writer=csv.writer(response)
+    writer.writerow(['Amount', 'Description', 'Source', 'Date'])
+    user_income = UserIncome.objects.filter(owner=request.user)
+    for income in user_income:
+        writer.writerow([income.amount, income.description, income.source, f'{income.date}'])
+    return response
+

@@ -3,7 +3,7 @@
 {% for message in messages %}
 {% if message.tags %}
 
-<div style="opacity: .8;" class="app-card card alert alert-dismissible text-white bg-{{message.tags}} shadow-sm mb-4 border-left-decoration p-3" role="alert">
+<div style="opacity: .8;" class="app-card msg-card card alert alert-dismissible text-white bg-{{message.tags}} shadow-sm mb-4 border-left-decoration p-3" role="alert">
     {{message}}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -11,3 +11,12 @@
 {% endfor %}
 
 <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>  
+
+<script>
+    const MsgCard = document.querySelector('.msg-card')
+    if (MsgCard.textContent.length !== 1) {
+        setTimeout((e) => {
+            MsgCard.style.display = 'none'
+        }, 2000);
+    } 
+</script>

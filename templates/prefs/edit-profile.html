@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %} Settings {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+        <div class="row bdc">
+            <div class="col-md-9">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"> <a href="{% url 'account-info' %}">My Account</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"> <a>Edit Profile</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+
+        {% include 'messages.html' %}
+
+        <div class="app-card app-card-settings shadow-sm p-4">
+
+
+            <div class="app-card-body">
+                <form class="form-group" action="{% url 'edit-profile' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="item  py-3">
+                        <div class="row justify-content-between align-items-center">
+                                <div class="item-label mb-2"><strong>Photo</strong></div>
+                                <div class="item-data"><img width="200" class="profile-image" src="{{user_prefs.image.url}}" alt="">
+                                </div>
+
+
+                                <input type="file" name="image" id="" class="form-control" >
+                        </div><!--//row-->
+                    </div><!--//item-->
+                  
+
+                    <div class="mb-3  ">
+
+                        <label for="username" class="form-label" >Username</label>
+                        <input value="{{user.username}}" type="text" name="username" class="form-control" id="">
+                    </div>
+                    <div class="mb-3  ">
+
+                        <label for="email" class="form-label" >Email</label>
+                        <input value="{{user.email}}" type="email" name="email" class="form-control" id="">
+                    </div>
+                
+
+
+                    <button type="submit" class="btn form-control btn-primary text-white">Edit Profile</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

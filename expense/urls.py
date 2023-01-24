@@ -10,5 +10,6 @@ urlpatterns = [
     path('<int:pk>/detail', views.expense_detail, name='expense-detail'),
     path('<int:pk>/edit', ExpenseEdit.as_view(), name='edit-expense'),
     path('delete', views.delete_expense, name='delete-expense'),
+    path('export-data-csv', views.export_csv, name='export-data-csv'),
     
 ]

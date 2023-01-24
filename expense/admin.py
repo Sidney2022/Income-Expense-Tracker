@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import Expense, Category
 
 class ExpenseAdmin(admin.ModelAdmin):
-    list_display = ['owner', 'description', 'date',  'category']
+    list_display = ['owner', 'amount', 'description', 'date',  'category']
     search_fields = ['description', 'category']
     
     

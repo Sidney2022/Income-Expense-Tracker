@@ -4,6 +4,7 @@ from django.contrib import messages
 from dotenv import load_dotenv
 load_dotenv()
 import os
+import secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,12 +13,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY  =   os.getenv("SECRET_KEY") #secrets.token_hex(32)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -60,6 +61,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'user_preferences.context_processors.get_user_preferences',
+                'user_preferences.context_processors.get_current_path',
+
             ],
         },
     },
@@ -80,11 +84,18 @@ WSGI_APPLICATION = 'income_expense_tracker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE'),
-        'NAME': os.getenv('DB_NAME'),
-        'USER' : os.getenv('DB_USER'),
-        'PASSWORD' : os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST')
+        # 'ENGINE': os.getenv('DB_ENGINE'),
+        # 'NAME': os.getenv('DB_NAME'),
+        # 'USER' : os.getenv('DB_USER'),
+        # 'PASSWORD' : os.getenv('DB_PASSWORD'),
+        # 'HOST': os.getenv('DB_HOST')
+        
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ["PGDATABASE"],
+        'USER': os.environ["PGUSER"],
+        'PASSWORD': os.environ["PGPASSWORD"],
+        'HOST': os.environ["PGHOST"],
+        'PORT': os.environ["PGPORT"],
     }
 }
 

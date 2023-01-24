@@ -2,3 +2,14 @@
     text-transform: capitalize;
 }
 
+.logo {
+    font-family: 'Montserrat Alternates', sans-serif;
+}
+li {
+    list-style: none;
+}
+
+h6 {
+    color: cadetblue;
+    padding-top: 15px 
+}

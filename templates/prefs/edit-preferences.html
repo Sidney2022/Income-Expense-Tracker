@@ -24,36 +24,45 @@
 
         <div class="app-card app-card-settings shadow-sm p-4">
 
+
             <div class="app-card-body">
-                <form class="form-group" action="edit"  method="post">
+                <form class="form-group" action="{% url 'edit-settings' %}" method="post">
                     {% csrf_token %}
-                  
-                    
+
+              
+
                     <div class="mb-3">
                         <label for="currency" class="form-label">Preferred Currency</label>
-                        <select class="form-control upper"  name="currency">
+                        <select class="form-control upper" name="currency">
                             {% if user_pref.currency %}
-                          <option value="{{user_pref.currency}}" selected>{{user_pref.currency}}</option>
-                          {% endif %}
-                          {% for currency in currencies %}
-                          <option value="{{currency.name}}" >  {{currency.name}} - {{currency.value}} - ({{currency.symbol}})</option>
-                          {% endfor %}
+                            <option value="{{user_pref.currency}}" selected>{{user_pref.currency}}</option>
+                            {% endif %}
+                            {% for currency in currencies %}
+                            <option value="{{currency.name}}"> {{currency.name}} - {{currency.value}} -
+                                ({{currency.symbol}})</option>
+                            {% endfor %}
                         </select>
-                    </div>
-                    
-                    <div class="mb-3 form-check ">
-                        
-                        <input type="checkbox" name="email-subscription" class="form-check-input" id="">
-                        <label for="email-subscription" class="form-check-label">Email Subscriptions</label>
-                    </div>
-                    <div class="mb-3 form-check ">
+                
 
+                    <div class="mb-3 form-check ">
+                    {% if user_pref.email_subscription == True %}
+                        <input type="checkbox" name="email-subscription" class="form-check-input" id="" checked>
+                        {% else %}
+                        <input type="checkbox" name="email-subscription" class="form-check-input" id="">
+                        {% endif %}
+                        <label for="email-subscription" class="form-check-label">Email Subscription</label>
+                    </div>
+
+                    <div class="mb-3 form-check ">
+                    {% if user_pref.sms_notification == True %}
+                        <input type="checkbox" checked name="sms-notification" class="form-check-input" id="">
+                        {% else %}
                         <input type="checkbox" name="sms-notification" class="form-check-input" id="">
+                        {% endif %}
                         <label for="sms-notification" class="form-check-label">Sms Notifications</label>
                     </div>
-                  
-                    
-                    <button type="submit" class="btn form-control btn-primary text-white">Edit Expense</button>
+                    <button type="submit" class="btn form-control btn-primary text-white">Edit Preferences</button>
+                   
                 </form>
             </div>
 
@@ -62,4 +71,3 @@
 </div>
 
 {% endblock %}
-

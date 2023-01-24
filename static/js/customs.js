@@ -1,5 +1,9 @@
-const msgCard = document.querySelector('.msg-card')
+// const msgCard = document.querySelector('.msg-card')
 
 
 
 
+
+// setTimeout(() => {
+    
+// }, timeout);

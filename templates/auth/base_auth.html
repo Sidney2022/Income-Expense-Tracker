@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <title>InExTracker | {% block title %}  {% endblock %}</title>
+    
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <!-- FontAwesome JS-->
+    <script defer src="{% static 'plugins/fontawesome/js/all.min.js' %}"></script>
+    
+    <!-- App CSS -->  
+    <link id="theme-style" rel="stylesheet" href="{% static 'css/portal.css' %}">
+
+</head> 
+
+<body class="app app-signup p-0">    	
+    <div class="row g-0 app-auth-wrapper">
+	    <div class="col-12 col-md-12 col-lg-12 auth-main-col text-center p-5">
+		    <div class="d-flex flex-column align-content-end">
+			    <div class="app-auth-body mx-auto">	
+				    <div class="app-auth-branding mb-4"><a class="app-logo" href="index.html"><img class="logo-icon me-2" src="{% static 'logo.png' %}" alt="logo"></a></div>
+
+                    {% block content  %}
+
+                    {% endblock %}
+
+
+                </div><!--//auth-body-->
+		    
+			   
+		    </div><!--//flex-column-->   
+	    </div><!--//auth-main-col-->
+	  
+    
+    </div><!--//row-->
+
+</body>
+</html> 
+
