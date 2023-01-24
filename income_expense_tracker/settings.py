@@ -154,3 +154,4 @@ DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USR')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 FOREX_API_KEY = os.getenv('API_LAYER_KEY')
+CSRF_TRUSTED_ORIGINS = ["*"]
