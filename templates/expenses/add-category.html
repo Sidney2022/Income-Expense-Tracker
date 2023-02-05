@@ -10,8 +10,8 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"> <a href="{% url 'all-expenses' %}">My Expenses</a></li>
-                        <li class="breadcrumb-item"> <a href="{% url 'all-expenses' %}">My Expenses</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"> <a>Add Category</a></li>
+                        <li class="breadcrumb-item"> <a href="{% url 'add-expense' %}">Add Expenses</a></li>
+                        <li class="breadcrumb-item active " aria-current="page"> <a>Add Category</a></li>
                     </ol>
                 </nav>
             </div>
@@ -23,22 +23,24 @@
         <div class="app-card app-card-settings shadow-sm p-4">
 
             <div class="app-card-body">
-                <form class="form-group" action="{% url 'add-expense' %}" method="post">
+                <form class="form-group" action="{% url 'add-category' %}" method="post">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <input type="text" class="form-control" value="{{fieldValues.category}}" required="" name="amount"
+                        <input type="text" class="form-control"  required="" name="category"
                             placeholder=" Category">
                     </div>
 
-                    <div class="mb-3">
-                        <select name="category" id="">
-                            <option value="">Cat</option>
-                        </select>
-                    </div>
-                   
-                    <button type="submit" class="btn form-control btn-primary">Add Category</button>
+                    
+                    <button type="submit" class="btn text-white form-control btn-primary">Add Category</button>
                 </form>
             </div>
+                <div class="mt-3">
+                    <select class="form-control" name="category" id="">
+                        {% for category in categories %}
+                        <option value="">{{category}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
         </div>
     </div>

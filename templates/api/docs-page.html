@@ -1,0 +1,255 @@
+{% extends 'api/base_api.html' %}
+{% load static %}
+
+{% block content%}
+<style>
+	pre,code{
+		background-color: #333;
+		color: #fff;
+		border-radius: 5px;
+		padding: 5px;
+	}
+</style>
+
+
+	<div class="docs-wrapper">
+		<div id="docs-sidebar" class="docs-sidebar">
+		
+			<nav id="docs-nav" class="docs-nav navbar">
+				<ul class="section-items list-unstyled nav flex-column pb-3">
+					<li class="nav-item section-title"><a class="nav-link scrollto active" href="#section-1"><span
+								class="theme-icon-holder me-2"><i class="fas fa-map-signs"></i></span>Getting Started</a>
+					</li>
+					<!-- <li class="nav-item"><a class="nav-link scrollto" href="#item-1-1">Section Item 1.1</a></li> -->
+					<li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#auth"><span
+								class="theme-icon-holder me-2"><i
+									class="fas fa-arrow-down"></i></span>Authentication</a>
+					</li>
+					<li class="nav-item"><a class="nav-link scrollto" href="#get-token">Getting Api Token</a></li>
+					<li class="nav-item"><a class="nav-link scrollto" href="#retrieve-token">Retrieve Token</a></li>
+					<li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#requests"><span
+								class="theme-icon-holder me-2"><i class="fas fa-box"></i></span>Requests</a></li>
+					<li class="nav-item"><a class="nav-link scrollto" href="#get-sec">GET</a></li>
+					<li class="nav-item"><a class="nav-link scrollto" href="#post-sec">POST</a></li>
+					<li class="nav-item"><a class="nav-link scrollto" href="#put-sec">PUT</a></li>
+					<li class="nav-item"><a class="nav-link scrollto" href="#patch-sec">PATCH</a></li>
+					<li class="nav-item"><a class="nav-link scrollto" href="#delete-sec">DELETE</a></li>
+				</ul>
+
+			</nav>
+		</div>
+		<div class="docs-content">
+			<div class="container">
+				<article class="docs-article" id="section-1">
+					<header class="docs-header">
+						<h1 class="docs-heading">Introduction <span class="docs-time">Last updated: 2023-02-04</span>
+						</h1>
+						<section class="docs-intro">
+							<p>The InExTracker Api is a RESTful Api that provides a secure and easy way to interact with the inextracker app.
+								This api was built using <a href="">Django-rest-framework</a> and allows you to perform various operations on the inextracker data without usig the web interface.
+							</p>
+							<p>With this api, you can perform the following operations.</p>
+							<ul>
+								<li>Retrieve data on income and expenses</li>
+								<li>Create new entries for income and expenses</li>
+								<li>Edit existing entries for income and expenses</li>
+								<li>Delete existing entries for income and expenses</li>
+								<li>Retrieve and manipulate data for different users</li>
+							</ul>
+						</section><!--//docs-intro-->
+
+						
+
+					
+
+
+					</header>
+					
+				</article>
+
+				<article class="docs-article" id="auth">
+					<header class="docs-header">
+						<h1 class="docs-heading">Authentication</h1>
+						<section class="docs-intro">
+							<p>Using the inextracker api to make api calls requires authentication which must be added to the header.
+								 </p>
+						</section><!--//docs-intro-->
+					</header>
+					<section class="docs-section" id="get-token">
+						<h2 class="section-heading">Get Token</h2>
+						<p>to get the authentication token, you have to be registered first as a user, then you can request for an api key.</p>
+					</section><!--//section-->
+
+					<section class="docs-section" id="retrieve-token">
+						<h2 class="section-heading">Retrieve Token</h2>
+						<p>You can always retrieve your inextracker api token if forgotten by simply making a get request with the following code</p>
+<div class="bg-dark">
+	<pre><code class="bg-dark text-white">GET / http://localhost/api/get-token</code></pre>
+</div>
+						<p>   you need to pass in your username and password in the parameters</p>
+<div class="bg-dark">
+<pre ><code class="bg-dark text-white"  >{
+ "username":"your_username",
+ "password":"your_password"
+}</code></pre>
+</div>
+
+and on success,
+<pre><code>{
+	"token": "e82c490f44603ed8428092e84ac62198248b68c6"
+}</code></pre>
+					
+					</section><!--//section-->
+
+				</article><!--//docs-article-->
+
+
+				<article class="docs-article" id="requests">
+					<header class="docs-section">
+						<h1 class="docs-heading">Requests</h1>
+						<section class="docs-intro">
+							<p>Making use of the inextracker APi requires header authentication. your authentication token must be passed in the header and not in the parameters. . The available requests methods are </p>
+							<ul>
+								<li><a href="#get-sec" id="">GET</a></li>
+								<li><a href="#post-sec" id="">POST</a></li>
+								<li><a href="#get-sec" id="">PUT</a></li>
+								<li><a href="#delete-sec" id="">DELETE</a></li>
+							</ul>
+						</section><!--//docs-intro-->
+					</header>
+
+					<section class="docs-intro" id="get-sec">
+						<h4>GET Requests</h4>
+						<p>Get requests are available for income and expenses and should be made to the following urls</p>
+
+						<div>
+							<h4 class=""> GET Income </h4>
+							<p>the endpoint for making a get request for all income related to a user is
+								<br><pre class="p-2"><code>GET / localhost:8000/api/income</code></pre>
+								<br> The a sample response from the code above is given below
+							</p>
+							<div class="docs-code-block">
+								<pre class="shadow-lg rounded"><code class="json hljs">[
+  {
+	<span class="hljs-attr">"id"</span>: <span class="hljs-string">"1"</span>,
+	<span class="hljs-attr">"amount"</span>: <span class="hljs-number">20000</span>,
+	<span class="hljs-attr">"category"</span>: <span class="hljs-number">travel</span>,
+	<span class="hljs-attr">"description"</span>: <span class="hljs-number">text ...</span>,
+  },
+  {
+	<span class="hljs-attr">"id"</span>: <span class="hljs-string">"2"</span>,
+	<span class="hljs-attr">"amount"</span>: <span class="hljs-number">40000</span>,
+	<span class="hljs-attr">"category"</span>: <span class="hljs-number">rent</span>,
+	<span class="hljs-attr">"description"</span>: <span class="hljs-number">text ...</span>,
+  },
+
+]
+
+
+</code></pre>
+							</div>
+						</div>
+
+						<div>
+							<h4 class="">GET Expense </h4>
+
+
+							<p>the endpoint for making a get request for all expense related to a user is
+								<br><code>GET / localhost:8000/api/expense</code>
+								<br> The a sample response from the code above is given below
+							</p>
+							<div class="docs-code-block">
+								<pre class="shadow-lg rounded"><code class="json hljs">[
+  {
+	<span class="hljs-attr">"id"</span>: <span class="hljs-string">"1"</span>,
+	<span class="hljs-attr">"amount"</span>: <span class="hljs-number">20000</span>,
+	<span class="hljs-attr">"source"</span>: <span class="hljs-number">investments</span>,
+	<span class="hljs-attr">"description"</span>: <span class="hljs-number">text ...</span>,
+  },
+  {
+	<span class="hljs-attr">"id"</span>: <span class="hljs-string">"2"</span>,
+	<span class="hljs-attr">"amount"</span>: <span class="hljs-number">40000</span>,
+	<span class="hljs-attr">"source"</span>: <span class="hljs-number">salary</span>,
+	<span class="hljs-attr">"description"</span>: <span class="hljs-number">text ...</span>,
+  },
+]
+</code></pre>
+							</div>
+						</div>
+					</section>
+
+					<section class="docs-intro" id="post-sec">
+						<h4>POST Requests</h4>
+						<p>making a post request for income and expense are simiar. all fields are required except for
+							the id which is automatically generated</p>
+						<div>
+
+							<p>the endpoint for making an income post request is
+								<br><code>POST / localhost:8000/api/income</code>
+							<p>the endpoint for making an expense post request is
+								<br><code>POST / localhost:8000/api/expense</code>
+
+								<br> A sample response from the code above is given below
+							</p>
+							<div class="docs-code-block">
+<pre class="shadow-lg rounded"><code class="json hljs">{
+	<span class="hljs-attr">"success"</span>: <span class="hljs-string">"object has been created successfully"</span>,
+ }</code></pre>
+							</div>
+						</div>
+					</section>
+
+					<section class="docs-intro pt-4" id="delete-sec">
+						<h4>Delete Requests</h4>
+						<p>making a delete request for income and expense are simiar. you have to specify the id of the
+							object you want to update</p>
+						<div>
+
+							<p>the endpoint for making an income delete request is
+								<br><code>POST / localhost:8000/api/income/{id}/delete</code>
+							<p>the endpoint for making an expense delete request is
+								<br><code>POST / localhost:8000/api/expense/{id}/delete</code>
+
+								<br> A sample response from the code above is given below
+							</p>
+							<h6>On Success</h6>
+							<div class="docs-code-block">
+<pre class="shadow-lg rounded"><code class="json hljs">{
+	<span class="hljs-attr">"success"</span>: <span class="hljs-string">"object has been deleted successfully"</span>
+}
+</code></pre>
+							</div>
+							<h6> Error</h6>
+							<div class="docs-code-block">
+								<pre class="shadow-lg rounded"><code class="json hljs">{
+	<span class="hljs-attr">"error"</span>: <span class="hljs-string">"object does not exist"</span>,
+}
+</code></pre>
+							</div>
+						</div>
+					</section>
+					
+				</article><!--//docs-article-->
+
+
+				<footer class="footer">
+					<div class="container text-center py-5">
+						<!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
+						<small class="copyright">Designed with <span class="sr-only">love</span><i class="fas fa-heart"
+								style="color: #fb866a;"></i> by <a class="theme-link"
+								href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for
+							developers</small>
+						<ul class="social-list list-unstyled pt-4 mb-0">
+							<li class="list-inline-item"><a href="#"><i class="fab fa-github fa-fw"></i></a></li>
+							<li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>
+							<li class="list-inline-item"><a href="#"><i class="fab fa-slack fa-fw"></i></a></li>
+							<li class="list-inline-item"><a href="#"><i class="fab fa-product-hunt fa-fw"></i></a></li>
+							<li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f fa-fw"></i></a></li>
+							<li class="list-inline-item"><a href="#"><i class="fab fa-instagram fa-fw"></i></a></li>
+						</ul><!--//social-list-->
+					</div>
+				</footer>
+			</div>
+		</div>
+	</div><!--//docs-wrapper-->
+	{% endblock %}

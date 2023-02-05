@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from .models import UserPreferences
+from income.models import UserIncome
+from expense.models import Expense
 import os, json
 from django.conf import settings
 from django.contrib import messages
@@ -8,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from expense.models import Expense
 import requests
 from django.contrib.auth.models import User
-from django.views import View
+from django.views import View, defaults
 
 
 
@@ -31,7 +33,29 @@ def edit_preferences(request):
         else:
             user_pref.email_subscription = False
      
+        expense=Expense.objects.filter(owner=request.user)
+        income=UserIncome.objects.filter(owner=request.user)
         
+        url = f"https://api.apilayer.com/exchangerates_data/convert?to={currency}&from={user_pref.currency}&amount=1"
+        api_key=settings.FOREX_API_KEY
+        headers= {
+        "apikey": api_key
+        }
+        try:
+            response = requests.request("GET", url, headers=headers)
+            result = response.text
+            result=json.loads(result)
+            if expense.exists():
+                for expense_obj in expense:
+                    amt = result['result'] * float(expense_obj.amount)
+                    expense_obj.amount=round(amt, 3)
+                    expense_obj.save()
+                for income_obj in income:
+                    amt = result['result'] * float(income_obj.amount)
+                    income_obj.amount=round(amt, 3)
+                    income_obj.save()
+        except Exception as e:
+            print('request could not be processed')
         user_pref.currency=currency
         user_pref.save()
         messages.success(request, 'user preference changed succesfully')
@@ -79,7 +103,7 @@ class ProfileSettings(View):
         username=request.POST['username']
         email=request.POST['email']
         image=request.FILES.get('image')
-        if not len(username) > 3:
+        if not len(username) >= 3:
             messages.error(request, 'username muset be contain at least 3 characters')
             return redirect('edit-profile')
         elif not username:

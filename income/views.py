@@ -9,6 +9,7 @@ from user_preferences.models import UserPreferences
 from django.http import HttpResponse
 import csv
 import datetime
+from django.http import JsonResponse
 
 
 @login_required(login_url='/auth/login', redirect_field_name='next')
@@ -28,7 +29,7 @@ def all_income(request):
 
 class AddUserIncomeView(View):
     def get(self, request):
-        sources = Source.objects.all()
+        sources = Source.objects.filter(user=request.user)
         
         return render(request, 'income/add-income.html', {'sources':sources})
     
@@ -54,6 +55,7 @@ class AddUserIncomeView(View):
         return redirect('add-income')
 
 
+@login_required(login_url='/auth/login')
 def income_detail(request, pk):
     income = UserIncome.objects.filter(owner=request.user, id=pk)
     if not income.exists():
@@ -65,7 +67,7 @@ def income_detail(request, pk):
     }
     return render(request, 'income/income-detail.html', context)
   
-    
+
 class IncomeEdit(View):
 
     def get(self, request, pk):
@@ -111,7 +113,8 @@ class IncomeEdit(View):
         messages.success(request, 'New income object saved successfully')
         return redirect(f'income-detail', pk=pk)
     
-    
+ 
+@login_required(login_url='/auth/login')   
 def delete_income(request):
     pk = request.GET.get('id')
     income = UserIncome.objects.filter(owner=request.user, id=pk)
@@ -125,7 +128,7 @@ def delete_income(request):
     return redirect('all-income')
 
 
-
+@login_required(login_url='/auth/login')
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition']=f'attachment;filename=Income{datetime.datetime.now()}.csv'
@@ -135,4 +138,68 @@ def export_csv(request):
     for income in user_income:
         writer.writerow([income.amount, income.description, income.source, f'{income.date}'])
     return response
+
+
+@login_required(login_url='/auth/login')
+def income_chart_data(request):
+    date_today = datetime.date.today()
+    no_nonths=6
+    if request.method == 'POST':
+        date_range_req = request.POST['date_range']
+        print(date_range_req)
+        if date_range_req == 'week':
+            date_range = date_today-datetime.timedelta(days=7)
+        elif date_range_req == 'month' :
+            date_range =  date_today-datetime.timedelta(days=30)
+        elif date_range_req == 'today':
+            date_range = date_today-datetime.timedelta(days=1)
+        elif  date_range_req ==  'year':
+            date_range = date_today-datetime.timedelta(days=365)
+        else:
+            date_range = date_today-datetime.timedelta(days=30*no_nonths)
+            
+    # date_range = date_today-datetime.timedelta(days=30*no_nonths)
+        
+    income = UserIncome.objects.filter(owner=request.user)
+    
+    final_rep = {}
+    def get_category(income):
+        return income.source
+    def get_income_source_amount(source):
+        amount = 0
+        filtered_by_source=income.filter(source=source)
+        for item in filtered_by_source:
+            amount += item.amount 
+        return amount
+
+    sources_list = list(set(map(get_category, income)))
+    for x in income:
+        for y in sources_list:
+            final_rep[y]=get_income_source_amount(y) 
+    labels=[k for k,v in final_rep.items()]
+    data = [v for k,v in final_rep.items()]
+    context = {
+        'labels': labels,
+        'data':data
+    }
+    return render (request, 'income/i-chart.html', context)
+
+
+@login_required(login_url='/auth/login')
+def add_sources(request):
+    user=request.user
+    sources = Source.objects.filter(user=user)
+    if request.method == 'POST':
+        source = request.POST['source']
+        if Source.objects.filter(user=user, name=source).exists():
+            messages.error(request, 'source already exists')
+            return redirect('sources')
+        source = Source.objects.create(user=user, name=source)
+        source.save()
+        messages.success(request, 'source added successfully')
+        return redirect('add-income')
+    return render(request, 'income/add-source.html', {'sources': sources})
+
+
+
 

@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
-from validate_email import validate_email
+# from validate_email import validate_email
 from django.contrib import messages
 from django.core.mail import EmailMessage
 # from django.contrib.sites.shortcuts import get_current_site
@@ -40,7 +40,7 @@ class LoginView(View):
             if not redirect_to == 'None':
                 return redirect(redirect_to)
             else:
-                return redirect('/')
+                return redirect('dashboard')
         else:
             messages.error(request, 'invalid login credentials')
             return render(request, 'auth/login.html', {'redirect_to':redirect_to})
@@ -81,7 +81,7 @@ class RegisterView(View):
         new_user_pref_object.save()
         new_user_model=User.objects.get(username=username)
         auth.login(request, new_user_model)
-        messages.error(request, 'Account created successfuly ')
+        messages.success(request, 'Account created successfuly ')
         return redirect( '/')
 
     

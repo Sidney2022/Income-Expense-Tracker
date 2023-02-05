@@ -8,7 +8,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <link rel="shortcut icon" href="{% static'logo.png' %}" type="image/x-icon">
+
     
     <!-- FontAwesome JS-->
     <script defer src="{% static 'plugins/fontawesome/js/all.min.js' %}"></script>
@@ -23,7 +24,7 @@
 	    <div class="col-12 col-md-12 col-lg-12 auth-main-col text-center p-5">
 		    <div class="d-flex flex-column align-content-end">
 			    <div class="app-auth-body mx-auto">	
-				    <div class="app-auth-branding mb-4"><a class="app-logo" href="index.html"><img class="logo-icon me-2" src="{% static 'logo.png' %}" alt="logo"></a></div>
+				    <div class="app-auth-branding mb-4"><a class="app-logo" href="/"><img class="logo-icon me-2" src="{% static 'logo.png' %}" alt="logo"></a></div>
 
                     {% block content  %}
 

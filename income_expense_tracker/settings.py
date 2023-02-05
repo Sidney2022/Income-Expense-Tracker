@@ -18,7 +18,7 @@ SECRET_KEY  =   os.getenv("SECRET_KEY") #secrets.token_hex(32)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 
 
 # Application definition
@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'income',
     'user_preferences',
     'user_authentication',
+    'api_app',
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -48,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
@@ -150,6 +153,7 @@ MESSAGE_TAGS = {
     messages.ERROR : 'danger'
 }
 
+# email configs
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_USE_TLS = True
@@ -158,5 +162,18 @@ EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USR')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 FOREX_API_KEY = os.getenv('API_LAYER_KEY')
+
 CSRF_TRUSTED_ORIGINS =["https://*.up.railway.app", "http://*.up.railway.app"]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        ]
+}
+
+APPEND_SLASH = False
+
+

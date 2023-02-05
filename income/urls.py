@@ -11,5 +11,7 @@ urlpatterns = [
     path('<int:pk>/edit', IncomeEdit.as_view(), name='edit-income'),
     path('delete', views.delete_income, name='delete-income'),
     path('export-income-data-csv', views.export_csv, name='income-data-csv'),
+    path('sources', views.add_sources, name='sources'),
+    path('chart', views.income_chart_data, name='chart',),
     
 ]

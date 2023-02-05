@@ -5,8 +5,8 @@
 
 <div class="app-content pt-3 p-md-3 p-lg-4">
     <div class="container-xl">
-        <div class="row bdc">
-            <div class="col-md-9">
+        <div class="row bdc g-3 mb-4 align-items-center justify-content-between">
+            <div class="col-auto ">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"> <a href="{% url 'all-expenses' %}">My Expenses</a></li>
@@ -14,8 +14,10 @@
                     </ol>
                 </nav>
             </div>
+            <div class="add col-auto">
+                <a href="{% url 'add-category' %}" class="btn btn-primary text-white"> Add Category </a>
+            </div>
         </div>
-
 
         {% include 'messages.html' %}
 

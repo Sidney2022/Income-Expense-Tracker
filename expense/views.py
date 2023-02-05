@@ -16,7 +16,7 @@ def expenses(request):
     user_prefs = UserPreferences.objects.get(user=request.user)
 
     page_number = request.GET.get('page')
-    paginator = Paginator(expenses, 2)
+    paginator = Paginator(expenses, 10)
     page = paginator.get_page( page_number)
     context = {
         'expenses':expenses,
@@ -161,3 +161,18 @@ def expense_category_summary(request):
 
 def stats_view(request):
     return render(request, 'expenses/stats.html')
+
+
+
+def add_category(request):
+    categories = Category.objects.filter(user=request.user)
+    if request.method == 'POST':
+        new_category = request.POST['category']
+        if Category.objects.filter(user=request.user, name=new_category).exists():
+            messages.error(request, 'category already exists')
+            return redirect('add-category')
+        new_category = Category.objects.create(user=request.user, name=new_category)
+        new_category.save()
+        messages.success(request, 'new category added successfully')
+        return redirect('add-expense')
+    return render(request, 'expenses/add-category.html', {'categories':categories})

@@ -4,6 +4,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
@@ -11,7 +13,9 @@ urlpatterns = [
     path('dashboard/income/', include('income.urls')),
     path('auth/', include('user_authentication.urls')),
     path('account/', include('user_preferences.urls')),
+    path('api/', include('api_app.urls'))
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-#handler404='core.views.error_404'
+handler404='core.views.error_404'
