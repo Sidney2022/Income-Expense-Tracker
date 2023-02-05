@@ -39,7 +39,10 @@ def dashboard_overview(request):
         cur_month_amt = values['cur_month_amt']
         last_month_amt = values['last_month_amt']
         n = cur_month_amt-last_month_amt
-        percent_change = (100*n)/last_month_amt
+        if  last_month_amt == 0:
+            percent_change = cur_month_amt
+        else:
+            percent_change = (100*n)/last_month_amt
         if cur_month_amt < last_month_amt:
             context['income_icon_class'] = 'danger'
             context['income_icon'] = 'down'
@@ -64,7 +67,6 @@ def dashboard_overview(request):
             context['expense_icon_class'] = 'danger'
             context['expense_icon'] = 'down'
             context['expense_percent_change'] = -percent_change
-            # context['percent_change'] = -percent_change
         elif cur_month_amt < last_month_amt:
             context['expense_icon_class'] = 'success'
             context['expense_icon'] = 'up'
