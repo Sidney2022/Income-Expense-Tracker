@@ -29,7 +29,7 @@ def expenses(request):
 
 class AddExpenseView(View):
     def get(self, request):
-        categories = Category.objects.all()
+        categories = Category.objects.filter(user=request.user)
         
         return render(request, 'expenses/add-expenses.html', {'categories':categories})
     
