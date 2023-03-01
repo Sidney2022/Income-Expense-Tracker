@@ -11,7 +11,11 @@
         <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center" >
           <div>
             <h1>Efficiently track income and expenses, stay financially organized.</h1>
+            {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="btn-get-started scrollto">Get Started</a>
+            {% else %} 
             <a href="{% url 'signup' %}" class="btn-get-started scrollto">Get Started</a>
+            {% endif %} 
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img" >
@@ -102,7 +106,16 @@
             <h4 class="title"> Take control of your finances today with our easy-to-use income and expense tracker app. Download now and start managing your money like a pro!</h4>
           </div>
           <div class="col-lg-3 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="">Get Started</a>
+            
+            {% if user.is_authenticated %}
+
+            <a href="{% url 'dashboard' %}" class="cta-btn align-middle ">Get Started</a>
+
+            {% else %} 
+
+            <a href="{% url 'signup' %}" class=" cta-btn align-middle" >Get Started</a>
+
+            {% endif %} 
           </div>
         </div>
 
