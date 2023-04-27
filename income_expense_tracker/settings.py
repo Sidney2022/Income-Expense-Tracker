@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'income_expense_tracker.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.parse(os.getenv("DATABASE_URL))
+    'default': dj_database_url.parse(os.getenv("DATABASE_URL"))
 #     {
 #         'ENGINE': os.getenv('DB_ENGINE'),
 #         'NAME': os.getenv('DB_NAME'),
