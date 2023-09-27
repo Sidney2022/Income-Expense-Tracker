@@ -10,7 +10,7 @@ def get_current_path(request):
 
 def get_user_preferences(request):
     if request.user.is_authenticated:
-        user_preferences = UserPreferences.objects.get(user=request.user)
+        user_preferences = UserPreferences.objects.filter(user=request.user).first() 
         context = {
         'user_prefs':user_preferences, 
         }
