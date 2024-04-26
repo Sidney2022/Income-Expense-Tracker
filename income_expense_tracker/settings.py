@@ -6,6 +6,7 @@ load_dotenv()
 import os
 import secrets
 import dj_database_url
+import logging
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -16,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY  =   os.getenv("SECRET_KEY") #secrets.token_hex(32)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True 
+DEBUG = False 
 
 ALLOWED_HOSTS = ['inextracker.up.railway.app', '*']
 
@@ -82,30 +83,14 @@ WSGI_APPLICATION = 'income_expense_tracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-    'default': dj_database_url.parse(os.getenv("DATABASE_URL"))
-#     {
-#         'ENGINE': os.getenv('DB_ENGINE'),
-#         'NAME': os.getenv('DB_NAME'),
-#         'USER' : os.getenv('DB_USER'),
-#         'PASSWORD' : os.getenv('DB_PASSWORD'),
-#         'HOST': os.getenv('DB_HOST')
-        
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': os.environ["PGDATABASE"],
-#         'USER': os.environ["PGUSER"],
-#         'PASSWORD': os.environ["PGPASSWORD"],
-#         'HOST': os.environ["PGHOST"],
-#         'PORT': os.environ["PGPORT"],
-#     }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
 
 
 # Password validation
@@ -166,7 +151,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 FOREX_API_KEY = os.getenv('API_LAYER_KEY')
 
-CSRF_TRUSTED_ORIGINS =["https://*.up.railway.app", "http://*.up.railway.app"]
+# CSRF_TRUSTED_ORIGINS =["https://*.up.railway.app", "http://*.up.railway.app"]
 
 
 REST_FRAMEWORK = {
@@ -178,3 +163,25 @@ REST_FRAMEWORK = {
 APPEND_SLASH = False
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+    'console': {
+        'level': 'ERROR',
+        'class': 'logging.StreamHandler',  # Output to console
+    },
+    'file': {
+        'level': 'DEBUG',
+        'class': 'logging.FileHandler',
+        'filename': os.path.join(BASE_DIR, 'error.log'),
+    },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],  # Output to both console and file
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
