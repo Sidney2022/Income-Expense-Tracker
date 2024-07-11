@@ -167,25 +167,25 @@ REST_FRAMEWORK = {
 APPEND_SLASH = False
 
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-    'console': {
-        'level': 'ERROR',
-        'class': 'logging.StreamHandler',  # Output to console
-    },
-    'file': {
-        'level': 'DEBUG',
-        'class': 'logging.FileHandler',
-        'filename': os.path.join(BASE_DIR, 'error.log'),
-    },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],  # Output to both console and file
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#     'console': {
+#         'level': 'ERROR',
+#         'class': 'logging.StreamHandler',  # Output to console
+#     },
+#     'file': {
+#         'level': 'DEBUG',
+#         'class': 'logging.FileHandler',
+#         'filename': os.path.join(BASE_DIR, 'error.log'),
+#     },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console', 'file'],  # Output to both console and file
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     },
+# }
